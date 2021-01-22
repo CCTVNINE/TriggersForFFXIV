@@ -1,1 +1,11 @@
-This document is not empty!
+<?xml version="1.0"?>
+<TriggernometryExport Version="1">
+  <ExportedTrigger Enabled="true" Name="拉高西高蹲A用" Id="b910a899-7f14-4ec0-9777-45438e7986ab" RegularExpression="Added new combatant (玛贝利|卢芭|米勒卡)">
+    <Actions>
+      <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 &lt;pos&gt;发现A怪，检查点图！" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+        <Condition Enabled="false" Grouping="Or" />
+      </Action>
+    </Actions>
+    <Condition Enabled="false" Grouping="Or" />
+  </ExportedTrigger>
+</TriggernometryExport>
