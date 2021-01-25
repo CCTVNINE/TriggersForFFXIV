@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<TriggernometryExport Version="1">
+  <ExportedFolder Id="14f3de78-24dd-4849-aa77-60f1921312d2" Name="触发用触发器" Enabled="true">
+    <Folders>
+      <Folder Id="842a8ca9-4ee5-49d2-b3ca-e1cbab72844c" Name="B怪排点自动报点" Enabled="true">
+        <Folders />
+        <Triggers>
+          <Trigger Enabled="true" Name="1.先用宏定义玩家ID和要排的怪的ID" Id="9ac4aeb1-9610-4ce6-b40a-64fbc596b9bd" RegularExpression="">
+            <Actions />
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="报点准备器" Id="69401882-e962-4732-afdf-709e69ee7dea" RegularExpression="00:0038:@(?&lt;player&gt;.*)排点目标(?&lt;target&gt;(米腊德罗斯蜂鸟|奥弗杰恩|阿尔提克|克鲁泽|阿苏黄|俱利摩|杜莫伊|狐首虺|大井巨虫|残虐杂技师))">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" UseTTSTextExpression="${player}的排点目标已设置为${target}" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" VariableOp="SetString" VariableName="playerID_paidian" VariableExpression="${player}" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" VariableOp="SetString" VariableName="targetID_paidian" VariableExpression="${target}" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" VariableOp="SetNumeric" VariableName="target_killed" VariableExpression="0" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="2.宏：/e @&lt;me&gt;排点目标&lt;t&gt;" Id="0c4f7b40-c579-46b3-b33a-d7fff8c7e2d8" RegularExpression="">
+            <Actions />
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="排点报点器 单人" Id="3a4ab629-0cfe-465e-b159-8bb4fe453a05" RegularExpression="^.{15}19:(?&lt;guai&gt;.*) was defeated by (?&lt;membername&gt;.*).">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" VariableOp="SetNumeric" VariableName="target_killed" VariableExpression="${var:target_killed}+1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable" Asynchronous="False">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/e #${var:target_killed}在&lt;pos&gt;击杀了${guai}" LogLevel="-1" UseTTSTextExpression="击杀成功" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/e 已刷新&lt;se.2&gt;" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="14000">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${guai}" ExpressionTypeL="String" ExpressionR="${var:targetID_paidian}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+              <ConditionSingle Enabled="true" ExpressionL="${membername}" ExpressionTypeL="String" ExpressionR="${var:playerID_paidian}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+            </Condition>
+          </Trigger>
+          <Trigger Enabled="true" Name="排点报点器 组队" Id="2aa8e08c-ff27-44fa-a365-c784018f6f3f" RegularExpression="^.{15}19:(?&lt;guai&gt;.*) was defeated by (?&lt;membername&gt;.*).">
+            <Actions>
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/p 在&lt;pos&gt;击杀了${guai}" LogLevel="-1" UseTTSTextExpression="击杀成功" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/p 已刷新&lt;se.2&gt;" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="14000">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${guai}" ExpressionTypeL="String" ExpressionR="${var:targetID_paidian}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+              <ConditionSingle Enabled="true" ExpressionL="${membername}" ExpressionTypeL="String" ExpressionR="${var:playerID_paidian}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+            </Condition>
+          </Trigger>
+        </Triggers>
+      </Folder>
+      <Folder Id="09e65a02-0b99-4a47-b540-deeb843b92d1" Name="西萨/北森自动抛竿" Enabled="true">
+        <Folders />
+        <Triggers>
+          <Trigger Enabled="false" Name="自动抛竿关闭" Id="9f76f19b-3e55-41fb-8c86-96d749d29a89" RegularExpression="^.{23}(?&lt;player&gt;.*)收回了鱼线。">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="1044ffcd-6e4f-4764-b517-7e8568884796" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="8caba9ce-043e-477e-8351-c17c81d4c804" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" UseTTSTextExpression="自动抛竿关闭" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="9f76f19b-3e55-41fb-8c86-96d749d29a89" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="true" Grouping="Or">
+              <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+            </Condition>
+          </Trigger>
+          <Trigger Enabled="false" Name="自动抛竿" Id="1044ffcd-6e4f-4764-b517-7e8568884796" RegularExpression="不经意间鱼饵被吃掉了……|上钩的鱼逃走了……">
+            <Actions>
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/ac 抛竿" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="1000">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="自动抛竿打开" Id="8caba9ce-043e-477e-8351-c17c81d4c804" RegularExpression="^.{23}(?&lt;player&gt;.*)在丰饶神井甩出了鱼线开始钓鱼。|^.{23}(?&lt;player&gt;.*)在秋瓜湖畔甩出了鱼线开始钓鱼。">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="1044ffcd-6e4f-4764-b517-7e8568884796" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="9f76f19b-3e55-41fb-8c86-96d749d29a89" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" UseTTSTextExpression="自动抛竿打开" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="8caba9ce-043e-477e-8351-c17c81d4c804" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="true" Grouping="Or">
+              <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+            </Condition>
+          </Trigger>
+        </Triggers>
+      </Folder>
+      <Folder Id="7aebabc2-1552-40ee-9521-9092605f851a" Name="挂图触发器(可自动开关)" Enabled="true">
+        <Folders>
+          <Folder Id="1d10febd-8be8-44fe-8cda-4af82719271d" Name="S怪挂图" Enabled="true">
+            <Folders />
+            <Triggers>
+              <Trigger Enabled="false" Name="4.0 S怪" Id="f11f16a1-48a6-42d1-88e8-766181479384" RegularExpression="Added new combatant (伽马|巨大鳐|盐和光|兀鲁忽乃朝鲁|爬骨怪龙|优昙婆罗花).*?HP: (\d{8})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="2.0 S怪" Id="d0b7a82d-4038-4d6a-9e1e-6ad61721c62a" RegularExpression="Added new combatant (护土精灵|咕尔呱洛斯|伽洛克|火愤牛|南迪|牛头黑神|雷德罗巨蛇|乌尔伽鲁|夺心魔|千竿口花希达|虚无探索者|布隆特斯|巴拉乌尔|努纽努维|蚓螈巨虫|萨法特|阿格里帕).*?HP: (\d{7})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="3.0 S怪" Id="f6e773dc-13ea-46fe-bc07-44cf2368c702" RegularExpression="Added new combatant (刚德瑞瓦|神穆尔鸟|苍白骑士|卢克洛塔|凯撒贝希摩斯|极乐鸟).*?HP: (\d{7})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="5.0 S怪" Id="e2086863-2e6d-463c-9cbd-be8ccdf88d75" RegularExpression="Added new combatant (戾虫|得到宽恕的炫学|多智兽|阿格拉俄珀|伊休妲|顾尼图).*?HP: (\d{8})">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+            </Triggers>
+          </Folder>
+        </Folders>
+        <Triggers>
+          <Trigger Enabled="true" Name="挂图触发器自动关闭" Id="ea85b954-4f81-46c3-96cd-9f7c248826d1" RegularExpression="离开状态已经解除。|@关闭挂图触发器">
+            <Actions>
+              <Action OrderNumber="1" UseTTSTextExpression="挂图触发器已关闭" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="2" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="d0b7a82d-4038-4d6a-9e1e-6ad61721c62a" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="3" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="f6e773dc-13ea-46fe-bc07-44cf2368c702" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="4" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="f11f16a1-48a6-42d1-88e8-766181479384" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="5" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="e2086863-2e6d-463c-9cbd-be8ccdf88d75" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="6" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="62e63bf0-6409-4c95-a004-dd3dd870432b" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="7" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="85f131cf-63d8-47b4-b06e-4e7a2c82dafb" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="8" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="11fb6180-aa02-4422-b250-899b62a05f23" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="9" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="e9b05a80-434a-4f91-b684-ec4853ec9d16" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="挂图触发器自动打开" Id="dcee9116-d847-407a-a0a8-5023272b126c" RegularExpression="一段时间内没有进行任何操作，已经自动切换为离开状态.|@打开挂图触发器">
+            <Actions>
+              <Action OrderNumber="1" UseTTSTextExpression="挂图触发器已打开" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="2" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="d0b7a82d-4038-4d6a-9e1e-6ad61721c62a" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="3" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="f6e773dc-13ea-46fe-bc07-44cf2368c702" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="4" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="f11f16a1-48a6-42d1-88e8-766181479384" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="5" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="e2086863-2e6d-463c-9cbd-be8ccdf88d75" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="6" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="62e63bf0-6409-4c95-a004-dd3dd870432b" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="7" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="85f131cf-63d8-47b4-b06e-4e7a2c82dafb" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="8" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="11fb6180-aa02-4422-b250-899b62a05f23" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="9" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="e9b05a80-434a-4f91-b684-ec4853ec9d16" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="false" Name="手动开启宏：/e @打开挂图触发器" Id="f5d42d54-2f20-4929-b5dc-67173e953ec7" RegularExpression="">
+            <Actions />
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="false" Name="手动关闭宏：/e @关闭挂图触发器" Id="79350602-f772-4eb9-8a20-141f9d1d0d93" RegularExpression="">
+            <Actions />
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+        </Triggers>
+      </Folder>
+      <Folder Id="61576ce5-b3dc-4596-a28b-eb31111709f7" Name="刚哥小助手" Enabled="true">
+        <Folders />
+        <Triggers>
+          <Trigger Enabled="true" Name="刚哥小助手" Id="34846473-bcf3-41f8-8c84-7712ec2d372b" RegularExpression="刚哥 采矿 雾海 -  15:20|刚哥 采矿 雾海 -  3:20">
+            <Actions>
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 刚哥小助手提醒您，距离皇金矿消失、星极花出现还有2分钟。" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+        </Triggers>
+      </Folder>
+    </Folders>
+    <Triggers>
+      <Trigger Enabled="true" Name="S报点" Id="ab9b1036-0bed-44ae-8428-cfc331c8616c" RegularExpression="SSSSS|sssss|sss出现|SSS出现">
+        <Actions>
+          <Action OrderNumber="1" UseTTSTextExpression="跨服S" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="Or" />
+      </Trigger>
+      <Trigger Enabled="true" Name="拉高西高蹲A用" Id="b910a899-7f14-4ec0-9777-45438e7986ab" RegularExpression="Added new combatant (玛贝利|卢芭|米勒卡)">
+        <Actions>
+          <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 &lt;pos&gt;发现A怪，检查点图！" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+            <Condition Enabled="false" Grouping="Or" />
+            <Conditions />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="Or" />
+        <Conditions />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
