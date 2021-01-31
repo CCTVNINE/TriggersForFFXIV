@@ -1,36 +1,32 @@
 <?xml version="1.0"?>
 <TriggernometryExport Version="1">
-  <ExportedFolder Id="14f3de78-24dd-4849-aa77-60f1921312d2" Name="触发用触发器" Enabled="true">
+  <ExportedFolder Id="14f3de78-24dd-4849-aa77-60f1921312d2" Name="触发用触发器 - 使用前请设置鲶鱼精端口号、通讯贝转发方案" Enabled="true">
     <Folders>
       <Folder Id="842a8ca9-4ee5-49d2-b3ca-e1cbab72844c" Name="B怪排点自动报点" Enabled="true">
         <Folders />
         <Triggers>
-          <Trigger Enabled="true" Name="1.先用宏定义玩家ID和要排的怪的ID" Id="9ac4aeb1-9610-4ce6-b40a-64fbc596b9bd" RegularExpression="">
+          <Trigger Enabled="true" Name="1. 用前选中排点要杀的B怪，点一次宏" Id="9ac4aeb1-9610-4ce6-b40a-64fbc596b9bd" RegularExpression="">
             <Actions />
             <Condition Enabled="false" Grouping="Or" />
           </Trigger>
-          <Trigger Enabled="true" Name="报点准备器" Id="69401882-e962-4732-afdf-709e69ee7dea" RegularExpression="00:0038:@(?&lt;player&gt;.*)排点目标(?&lt;target&gt;(米腊德罗斯蜂鸟|奥弗杰恩|阿尔提克|克鲁泽|阿苏黄|俱利摩|杜莫伊|狐首虺|大井巨虫|残虐杂技师))">
+          <Trigger Enabled="true" Name="报点准备器" Id="69401882-e962-4732-afdf-709e69ee7dea" RegularExpression="00:0038:@(?&lt;player&gt;.*)排点目标(?&lt;target&gt;(米腊德罗斯蜂鸟|奥弗杰恩|阿尔提克|克鲁泽|阿苏黄|俱利摩|杜莫伊|狐首虺|大井巨虫|残虐杂技师|闪雷击 鱼雷|大太))">
             <Actions>
               <Action OrderNumber="1" LogLevel="-1" UseTTSTextExpression="${player}的排点目标已设置为${target}" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="2" LogLevel="-1" VariableOp="SetString" VariableName="playerID_paidian" VariableExpression="${player}" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="3" LogLevel="-1" VariableOp="SetString" VariableName="targetID_paidian" VariableExpression="${target}" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="4" LogLevel="-1" VariableOp="SetNumeric" VariableName="target_killed" VariableExpression="0" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
             </Actions>
             <Condition Enabled="false" Grouping="Or" />
           </Trigger>
-          <Trigger Enabled="true" Name="2.宏：/e @&lt;me&gt;排点目标&lt;t&gt;" Id="0c4f7b40-c579-46b3-b33a-d7fff8c7e2d8" RegularExpression="">
+          <Trigger Enabled="true" Name="2. 宏：/e @&lt;me&gt;排点目标&lt;t&gt;" Id="0c4f7b40-c579-46b3-b33a-d7fff8c7e2d8" RegularExpression="">
             <Actions />
             <Condition Enabled="false" Grouping="Or" />
           </Trigger>
@@ -40,11 +36,11 @@
                 <Condition Enabled="false" Grouping="Or" />
                 <Conditions />
               </Action>
-              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/e #${var:target_killed}在&lt;pos&gt;击杀了${guai}" LogLevel="-1" UseTTSTextExpression="击杀成功" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/e #${var:target_killed}在&lt;pos&gt;击杀了${guai}" LogLevel="-1" UseTTSTextExpression="击杀成功" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
                 <Condition Enabled="false" Grouping="Or" />
                 <Conditions />
               </Action>
-              <Action OrderNumber="3" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/e 已刷新&lt;se.2&gt;" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="14000">
+              <Action OrderNumber="3" JsonEndpointExpression="http://127.0.0.1:${鲶鱼精端口号}/command" JsonPayloadExpression="/e 已刷新&lt;se.2&gt;" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="14000">
                 <Condition Enabled="false" Grouping="Or" />
                 <Conditions />
               </Action>
@@ -56,11 +52,11 @@
           </Trigger>
           <Trigger Enabled="true" Name="排点报点器 组队" Id="2aa8e08c-ff27-44fa-a365-c784018f6f3f" RegularExpression="^.{15}19:(?&lt;guai&gt;.*) was defeated by (?&lt;membername&gt;.*).">
             <Actions>
-              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/p 在&lt;pos&gt;击杀了${guai}" LogLevel="-1" UseTTSTextExpression="击杀成功" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/p 在&lt;pos&gt;击杀了${guai}" LogLevel="-1" UseTTSTextExpression="击杀成功" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
                 <Condition Enabled="false" Grouping="Or" />
                 <Conditions />
               </Action>
-              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/p 已刷新&lt;se.2&gt;" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="14000">
+              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/p 已刷新&lt;se.2&gt;" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="14000">
                 <Condition Enabled="false" Grouping="Or" />
                 <Conditions />
               </Action>
@@ -72,26 +68,22 @@
           </Trigger>
         </Triggers>
       </Folder>
-      <Folder Id="09e65a02-0b99-4a47-b540-deeb843b92d1" Name="西萨/北森自动抛竿" Enabled="true">
+      <Folder Id="09e65a02-0b99-4a47-b540-deeb843b92d1" Name="西萨&amp;北森自动抛竿 - 配合渔人的直感效果更佳" Enabled="true">
         <Folders />
         <Triggers>
           <Trigger Enabled="false" Name="自动抛竿关闭" Id="9f76f19b-3e55-41fb-8c86-96d749d29a89" RegularExpression="^.{23}(?&lt;player&gt;.*)收回了鱼线。">
             <Actions>
               <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="1044ffcd-6e4f-4764-b517-7e8568884796" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="8caba9ce-043e-477e-8351-c17c81d4c804" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="3" LogLevel="-1" UseTTSTextExpression="自动抛竿关闭" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="9f76f19b-3e55-41fb-8c86-96d749d29a89" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
             </Actions>
             <Condition Enabled="true" Grouping="Or">
@@ -100,8 +92,9 @@
           </Trigger>
           <Trigger Enabled="false" Name="自动抛竿" Id="1044ffcd-6e4f-4764-b517-7e8568884796" RegularExpression="不经意间鱼饵被吃掉了……|上钩的鱼逃走了……">
             <Actions>
-              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/ac 抛竿" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="1000">
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/ac 抛竿" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson" ExecutionDelayExpression="1000">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
             </Actions>
             <Condition Enabled="false" Grouping="Or" />
@@ -110,19 +103,15 @@
             <Actions>
               <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="1044ffcd-6e4f-4764-b517-7e8568884796" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="9f76f19b-3e55-41fb-8c86-96d749d29a89" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="3" LogLevel="-1" UseTTSTextExpression="自动抛竿打开" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
               <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="8caba9ce-043e-477e-8351-c17c81d4c804" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
-                <Conditions />
               </Action>
             </Actions>
             <Condition Enabled="true" Grouping="Or">
@@ -131,54 +120,146 @@
           </Trigger>
         </Triggers>
       </Folder>
-      <Folder Id="7aebabc2-1552-40ee-9521-9092605f851a" Name="挂图触发器(可自动开关)" Enabled="true">
+      <Folder Id="7aebabc2-1552-40ee-9521-9092605f851a" Name="挂图触发器 - 可手动、自动开关" Enabled="true">
         <Folders>
           <Folder Id="1d10febd-8be8-44fe-8cda-4af82719271d" Name="S怪挂图" Enabled="true">
             <Folders />
             <Triggers>
-              <Trigger Enabled="false" Name="4.0 S怪" Id="f11f16a1-48a6-42d1-88e8-766181479384" RegularExpression="Added new combatant (伽马|巨大鳐|盐和光|兀鲁忽乃朝鲁|爬骨怪龙|优昙婆罗花).*?HP: (\d{8})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
+              <Trigger Enabled="true" Name="4.0 S怪" Id="510210f8-cf66-47dc-a043-da320fb083cc" RegularExpression="Added new combatant (伽马|巨大鳐|盐和光|兀鲁忽乃朝鲁|爬骨怪龙|优昙婆罗花).*?HP: (\d{8})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
                 <Actions>
-                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
-                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="3" LogLevel="-1" VariableOp="SetString" VariableName="_messageToGame" VariableExpression="柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable" Asynchronous="False">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3cda5f47-8caf-4a9a-a51c-e34781349cd0" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3272edc5-fd1d-40ad-9f47-d7a398b3d61f" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="baa107a7-d9d0-4618-8d9b-fea05e396f31" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5d18fcee-48cb-4d7b-b90d-6bc892ac675b" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
                 </Actions>
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Trigger>
-              <Trigger Enabled="false" Name="2.0 S怪" Id="d0b7a82d-4038-4d6a-9e1e-6ad61721c62a" RegularExpression="Added new combatant (护土精灵|咕尔呱洛斯|伽洛克|火愤牛|南迪|牛头黑神|雷德罗巨蛇|乌尔伽鲁|夺心魔|千竿口花希达|虚无探索者|布隆特斯|巴拉乌尔|努纽努维|蚓螈巨虫|萨法特|阿格里帕).*?HP: (\d{7})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
+              <Trigger Enabled="true" Name="3.0 S怪" Id="5d31a6bc-3bc7-4f89-9a19-48f83e9d7d57" RegularExpression="Added new combatant (刚德瑞瓦|神穆尔鸟|苍白骑士|卢克洛塔|凯撒贝希摩斯|极乐鸟).*?HP: (\d{7})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
                 <Actions>
-                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
-                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="3" LogLevel="-1" VariableOp="SetString" VariableName="_messageToGame" VariableExpression="柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable" Asynchronous="False">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3cda5f47-8caf-4a9a-a51c-e34781349cd0" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3272edc5-fd1d-40ad-9f47-d7a398b3d61f" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="baa107a7-d9d0-4618-8d9b-fea05e396f31" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5d18fcee-48cb-4d7b-b90d-6bc892ac675b" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
                 </Actions>
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Trigger>
-              <Trigger Enabled="false" Name="3.0 S怪" Id="f6e773dc-13ea-46fe-bc07-44cf2368c702" RegularExpression="Added new combatant (刚德瑞瓦|神穆尔鸟|苍白骑士|卢克洛塔|凯撒贝希摩斯|极乐鸟).*?HP: (\d{7})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
+              <Trigger Enabled="true" Name="5.0 S怪" Id="cb755ca0-eb26-449e-804f-80998a9be772" RegularExpression="Added new combatant (戾虫|得到宽恕的炫学|多智兽|阿格拉俄珀|伊休妲|顾尼图).*?HP: (\d{8})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
                 <Actions>
-                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
-                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="3" LogLevel="-1" VariableOp="SetString" VariableName="_messageToGame" VariableExpression="柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable" Asynchronous="False">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3cda5f47-8caf-4a9a-a51c-e34781349cd0" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3272edc5-fd1d-40ad-9f47-d7a398b3d61f" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="baa107a7-d9d0-4618-8d9b-fea05e396f31" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5d18fcee-48cb-4d7b-b90d-6bc892ac675b" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
                 </Actions>
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Trigger>
-              <Trigger Enabled="false" Name="5.0 S怪" Id="e2086863-2e6d-463c-9cbd-be8ccdf88d75" RegularExpression="Added new combatant (戾虫|得到宽恕的炫学|多智兽|阿格拉俄珀|伊休妲|顾尼图).*?HP: (\d{8})">
+              <Trigger Enabled="true" Name="2.0 S怪" Id="1b10a51f-141c-46df-b5dd-5c98b707b7e7" RegularExpression="Added new combatant (护土精灵|咕尔呱洛斯|伽洛克|火愤牛|南迪|牛头黑神|雷德罗巨蛇|乌尔伽鲁|夺心魔|千竿口花希达|虚无探索者|布隆特斯|巴拉乌尔|努纽努维|蚓螈巨虫|萨法特|阿格里帕).*?HP: (\d{7})" PeriodRefire="Deny" RefirePeriodExpression="1*60*1000">
                 <Actions>
-                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl3 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
-                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                  <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl1 柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" KeyPressExpression="F" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
                     <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="3" LogLevel="-1" VariableOp="SetString" VariableName="_messageToGame" VariableExpression="柔风SSSSSsssss，挂图提醒，坐标不准&lt;pos&gt;" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable" Asynchronous="False">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3cda5f47-8caf-4a9a-a51c-e34781349cd0" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3272edc5-fd1d-40ad-9f47-d7a398b3d61f" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="baa107a7-d9d0-4618-8d9b-fea05e396f31" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                  <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5d18fcee-48cb-4d7b-b90d-6bc892ac675b" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
                   </Action>
                 </Actions>
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Trigger>
             </Triggers>
           </Folder>
@@ -220,30 +301,39 @@
             <Actions>
               <Action OrderNumber="1" UseTTSTextExpression="挂图触发器已打开" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
-              <Action OrderNumber="2" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="d0b7a82d-4038-4d6a-9e1e-6ad61721c62a" ActionType="Trigger">
+              <Action OrderNumber="2" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="1b10a51f-141c-46df-b5dd-5c98b707b7e7" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
-              <Action OrderNumber="3" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="f6e773dc-13ea-46fe-bc07-44cf2368c702" ActionType="Trigger">
+              <Action OrderNumber="3" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="5d31a6bc-3bc7-4f89-9a19-48f83e9d7d57" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
-              <Action OrderNumber="4" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="f11f16a1-48a6-42d1-88e8-766181479384" ActionType="Trigger">
+              <Action OrderNumber="4" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="510210f8-cf66-47dc-a043-da320fb083cc" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
-              <Action OrderNumber="5" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="e2086863-2e6d-463c-9cbd-be8ccdf88d75" ActionType="Trigger">
+              <Action OrderNumber="5" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="EnableTrigger" TriggerId="cb755ca0-eb26-449e-804f-80998a9be772" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
               <Action OrderNumber="6" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="62e63bf0-6409-4c95-a004-dd3dd870432b" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
               <Action OrderNumber="7" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="85f131cf-63d8-47b4-b06e-4e7a2c82dafb" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
               <Action OrderNumber="8" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="11fb6180-aa02-4422-b250-899b62a05f23" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
               <Action OrderNumber="9" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerOp="DisableTrigger" TriggerId="e9b05a80-434a-4f91-b684-ec4853ec9d16" ActionType="Trigger">
                 <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
               </Action>
             </Actions>
             <Condition Enabled="false" Grouping="Or" />
@@ -258,12 +348,514 @@
           </Trigger>
         </Triggers>
       </Folder>
-      <Folder Id="61576ce5-b3dc-4596-a28b-eb31111709f7" Name="刚哥小助手" Enabled="true">
+      <Folder Id="f2a9429c-9399-4156-ae63-be58cc12f25a" Name="西高、拉高蹲A用" Enabled="true">
         <Folders />
         <Triggers>
-          <Trigger Enabled="true" Name="刚哥小助手" Id="34846473-bcf3-41f8-8c84-7712ec2d372b" RegularExpression="刚哥 采矿 雾海 -  15:20|刚哥 采矿 雾海 -  3:20">
+          <Trigger Enabled="true" Name="拉高西高蹲A用" Id="b910a899-7f14-4ec0-9777-45438e7986ab" RegularExpression="Added new combatant (玛贝利|卢芭|米勒卡)">
             <Actions>
-              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 刚哥小助手提醒您，距离皇金矿消失、星极花出现还有2分钟。" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl3 &lt;pos&gt;发现A怪，检查点图！" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" VariableOp="SetString" VariableName="_messageToGame" VariableExpression="在&lt;pos&gt;处发现A怪，请检查点图！" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable" Asynchronous="False">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3cda5f47-8caf-4a9a-a51c-e34781349cd0" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="3272edc5-fd1d-40ad-9f47-d7a398b3d61f" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="baa107a7-d9d0-4618-8d9b-fea05e396f31" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5d18fcee-48cb-4d7b-b90d-6bc892ac675b" TriggerForce="regexp,conditions,parent" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+        </Triggers>
+      </Folder>
+      <Folder Id="09a61125-07c3-4360-adbb-5db2ece6bf7e" Name="S提醒 - 适用于猫区5服联合" Enabled="true">
+        <Folders />
+        <Triggers>
+          <Trigger Enabled="true" Name="S提醒" Id="ab9b1036-0bed-44ae-8428-cfc331c8616c" RegularExpression="SSSSS|sssss|sss出现|SSS出现">
+            <Actions>
+              <Action OrderNumber="1" UseTTSTextExpression="注意S" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+        </Triggers>
+      </Folder>
+      <Folder Id="833936e2-4027-4220-9b43-02e37867dec6" Name="-&gt; 用前必看 &lt;-" Enabled="true">
+        <Folders>
+          <Folder Id="cc9c68ab-63c8-4c22-bfbc-96d244e71fd8" Name="跨服贝" Enabled="true">
+            <Folders />
+            <Triggers>
+              <Trigger Enabled="false" Name="跨服5号贝" Id="bf5c022b-8f54-4b75-bb72-4b3c2d8149b9" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl5 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服6号贝" Id="26c7b18a-3458-40c7-907f-dcc893f05fae" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl6 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服1号贝" Id="5a0a508f-3f11-41d8-882d-36522039ebbf" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl1 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服8号贝" Id="4c04c2f7-22f3-45de-83b0-1d5ef9a697be" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl8 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服2号贝" Id="92ac8a91-6ed0-4f39-bb32-fe9a72253dcc" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl2 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服4号贝" Id="9d806ad4-5d13-40c1-9cc1-739fc0c607d0" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl4 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服3号贝" Id="1d3ea396-a5e1-48c4-9671-4c65805bc826" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl3 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="跨服7号贝" Id="8678e613-b9b3-47f8-896a-6dfd259f0e92" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/cwl7 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+            </Triggers>
+          </Folder>
+          <Folder Id="bcee085a-7f3c-400a-bdb2-20d46b72621a" Name="本地贝" Enabled="true">
+            <Folders />
+            <Triggers>
+              <Trigger Enabled="false" Name="本地6号贝" Id="7f17c85f-b3cd-45b8-95e5-5feffb2f8d24" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l6 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地1号贝" Id="c32c7480-710e-4588-8865-1f9d63de29a3" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l1 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地7号贝" Id="e4334cb2-4b8e-4b04-8490-7255fb6e0fc9" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l7 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地3号贝" Id="cfd9de47-049d-4d2e-bc40-e5412693a87e" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l3 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地8号贝" Id="6ca14cb1-54e9-4c80-abdd-7fe546ab0ebd" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l8 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地4号贝" Id="06721754-c5e2-485b-9124-bda5c7f54779" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l4 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地2号贝" Id="5a165759-64ce-4d1b-8b76-9bbb4b91287c" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l2 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+              <Trigger Enabled="false" Name="本地5号贝" Id="4234f382-fc7a-4608-aec0-7e881cfe89d2" RegularExpression="">
+                <Actions>
+                  <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:${var:鲶鱼精端口号}/command" JsonPayloadExpression="/l5 ${var:_messageToGame}" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
+                    <Condition Enabled="false" Grouping="Or" />
+                    <Conditions />
+                  </Action>
+                </Actions>
+                <Condition Enabled="false" Grouping="Or" />
+              </Trigger>
+            </Triggers>
+          </Folder>
+        </Folders>
+        <Triggers>
+          <Trigger Enabled="true" Name="---&gt; 使用说明 &lt;----" Id="0bea63e2-fba4-4bcf-adb8-b2d1e517aa13" RegularExpression="点击右下方 描述 查看使用说明！" Description="适用于触发组的触发器。&#xD;&#xA;&#xD;&#xA;==============================&#xD;&#xA;&#xD;&#xA;使用本触发器必须安装ACT鲶鱼精插件！并保证鲶鱼精能够正常使用！&#xD;&#xA;使用本触发器必须安装ACT鲶鱼精插件！并保证鲶鱼精能够正常使用！&#xD;&#xA;使用本触发器必须安装ACT鲶鱼精插件！并保证鲶鱼精能够正常使用！&#xD;&#xA;&#xD;&#xA;除此之外，本触发器大量使用TTS，请确保电脑中TTS可正常使用。&#xD;&#xA;&#xD;&#xA;==============================&#xD;&#xA;&#xD;&#xA;第一次使用本触发器时，请按以下步骤进行设置：&#xD;&#xA;&#xD;&#xA;1. 点击“1.点我设置鲶鱼精端口号”触发器，并修改其中“表达”输入框中的数字为你ACT鲶鱼精的端口号。&#xD;&#xA;&#xD;&#xA;2. 修改“通讯贝转发方案”中要发送消息的通讯贝。最多支持4种方案，以备不时之需。&#xD;&#xA;&#xD;&#xA;   不需要的方案请取消勾选！不需要的方案请取消勾选！不需要的方案请取消勾选！&#xD;&#xA;&#xD;&#xA;   比如：游戏中，本组本地贝编号为2，本组跨服贝编号为3，那么&#xD;&#xA;&#xD;&#xA;         勾选方案1，且双击方案1打开，勾选其中的本地贝2 与 跨服贝3并保存。以在挂图蹲A时通知本组组员及时修改点图。&#xD;&#xA;&#xD;&#xA;         而方案2、方案3与方案4不需要，则取消勾选。&#xD;&#xA;&#xD;&#xA;==============================">
+            <Actions />
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="2. 通讯贝转发方案1 - 勾选完了记得保存！也可以把触发器名字改成方便记忆的名字！" Id="3cda5f47-8caf-4a9a-a51c-e34781349cd0" RegularExpression="">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="c32c7480-710e-4588-8865-1f9d63de29a3" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a165759-64ce-4d1b-8b76-9bbb4b91287c" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="cfd9de47-049d-4d2e-bc40-e5412693a87e" TriggerForce="true" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="06721754-c5e2-485b-9124-bda5c7f54779" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4234f382-fc7a-4608-aec0-7e881cfe89d2" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="7f17c85f-b3cd-45b8-95e5-5feffb2f8d24" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="e4334cb2-4b8e-4b04-8490-7255fb6e0fc9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="8" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="6ca14cb1-54e9-4c80-abdd-7fe546ab0ebd" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="9" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a0a508f-3f11-41d8-882d-36522039ebbf" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="10" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="92ac8a91-6ed0-4f39-bb32-fe9a72253dcc" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="11" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="1d3ea396-a5e1-48c4-9671-4c65805bc826" TriggerForce="true" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="12" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="9d806ad4-5d13-40c1-9cc1-739fc0c607d0" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="13" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="bf5c022b-8f54-4b75-bb72-4b3c2d8149b9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="14" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="26c7b18a-3458-40c7-907f-dcc893f05fae" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="15" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="8678e613-b9b3-47f8-896a-6dfd259f0e92" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="16" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4c04c2f7-22f3-45de-83b0-1d5ef9a697be" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="true" Name="1. 点我设置鲶鱼精端口号！ - 修改“表达”中的数字" Id="d43cc971-52b2-4ac8-95ac-5221e2ce5bc0" RegularExpression="">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" VariableOp="SetNumeric" VariableName="鲶鱼精端口号" VariableExpression="1234" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="Variable">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+          </Trigger>
+          <Trigger Enabled="false" Name="2. 通讯贝转发方案2 - 不用就不要勾选这个触发器" Id="3272edc5-fd1d-40ad-9f47-d7a398b3d61f" RegularExpression="">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="c32c7480-710e-4588-8865-1f9d63de29a3" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a165759-64ce-4d1b-8b76-9bbb4b91287c" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="cfd9de47-049d-4d2e-bc40-e5412693a87e" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="06721754-c5e2-485b-9124-bda5c7f54779" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4234f382-fc7a-4608-aec0-7e881cfe89d2" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="7f17c85f-b3cd-45b8-95e5-5feffb2f8d24" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="e4334cb2-4b8e-4b04-8490-7255fb6e0fc9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="8" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="6ca14cb1-54e9-4c80-abdd-7fe546ab0ebd" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="9" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a0a508f-3f11-41d8-882d-36522039ebbf" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="10" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="92ac8a91-6ed0-4f39-bb32-fe9a72253dcc" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="11" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="1d3ea396-a5e1-48c4-9671-4c65805bc826" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="12" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="9d806ad4-5d13-40c1-9cc1-739fc0c607d0" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="13" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="bf5c022b-8f54-4b75-bb72-4b3c2d8149b9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="14" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="26c7b18a-3458-40c7-907f-dcc893f05fae" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="15" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="8678e613-b9b3-47f8-896a-6dfd259f0e92" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="16" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4c04c2f7-22f3-45de-83b0-1d5ef9a697be" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+            <Conditions />
+          </Trigger>
+          <Trigger Enabled="false" Name="2. 通讯贝转发方案4 - 不用就不要勾选这个触发器" Id="5d18fcee-48cb-4d7b-b90d-6bc892ac675b" RegularExpression="">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="c32c7480-710e-4588-8865-1f9d63de29a3" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a165759-64ce-4d1b-8b76-9bbb4b91287c" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="cfd9de47-049d-4d2e-bc40-e5412693a87e" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="06721754-c5e2-485b-9124-bda5c7f54779" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4234f382-fc7a-4608-aec0-7e881cfe89d2" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="7f17c85f-b3cd-45b8-95e5-5feffb2f8d24" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="e4334cb2-4b8e-4b04-8490-7255fb6e0fc9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="8" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="6ca14cb1-54e9-4c80-abdd-7fe546ab0ebd" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="9" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a0a508f-3f11-41d8-882d-36522039ebbf" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="10" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="92ac8a91-6ed0-4f39-bb32-fe9a72253dcc" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="11" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="1d3ea396-a5e1-48c4-9671-4c65805bc826" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="12" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="9d806ad4-5d13-40c1-9cc1-739fc0c607d0" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="13" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="bf5c022b-8f54-4b75-bb72-4b3c2d8149b9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="14" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="26c7b18a-3458-40c7-907f-dcc893f05fae" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="15" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="8678e613-b9b3-47f8-896a-6dfd259f0e92" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="16" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4c04c2f7-22f3-45de-83b0-1d5ef9a697be" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+            <Conditions />
+          </Trigger>
+          <Trigger Enabled="false" Name="2. 通讯贝转发方案3 - 不用就不要勾选这个触发器" Id="baa107a7-d9d0-4618-8d9b-fea05e396f31" RegularExpression="">
+            <Actions>
+              <Action OrderNumber="1" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="c32c7480-710e-4588-8865-1f9d63de29a3" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="2" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a165759-64ce-4d1b-8b76-9bbb4b91287c" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="3" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="cfd9de47-049d-4d2e-bc40-e5412693a87e" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="4" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="06721754-c5e2-485b-9124-bda5c7f54779" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="5" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4234f382-fc7a-4608-aec0-7e881cfe89d2" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="6" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="7f17c85f-b3cd-45b8-95e5-5feffb2f8d24" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="7" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="e4334cb2-4b8e-4b04-8490-7255fb6e0fc9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="8" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="6ca14cb1-54e9-4c80-abdd-7fe546ab0ebd" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="9" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="5a0a508f-3f11-41d8-882d-36522039ebbf" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="10" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="92ac8a91-6ed0-4f39-bb32-fe9a72253dcc" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="11" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="1d3ea396-a5e1-48c4-9671-4c65805bc826" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="12" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="9d806ad4-5d13-40c1-9cc1-739fc0c607d0" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="13" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="bf5c022b-8f54-4b75-bb72-4b3c2d8149b9" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="14" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="26c7b18a-3458-40c7-907f-dcc893f05fae" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="15" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="8678e613-b9b3-47f8-896a-6dfd259f0e92" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+              <Action OrderNumber="16" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" TriggerId="4c04c2f7-22f3-45de-83b0-1d5ef9a697be" TriggerForce="true" Enabled="False" ActionType="Trigger">
+                <Condition Enabled="false" Grouping="Or" />
+                <Conditions />
+              </Action>
+            </Actions>
+            <Condition Enabled="false" Grouping="Or" />
+            <Conditions />
+          </Trigger>
+        </Triggers>
+      </Folder>
+      <Folder Id="61576ce5-b3dc-4596-a28b-eb31111709f7" Name="刚哥小助手 - 不建议使用" Enabled="true">
+        <Folders />
+        <Triggers>
+          <Trigger Enabled="false" Name="刚哥小助手" Id="34846473-bcf3-41f8-8c84-7712ec2d372b" RegularExpression="刚哥 采矿 雾海 -  15:20|刚哥 采矿 雾海 -  3:20">
+            <Actions>
+              <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 刚哥小助手提醒您，距离皇金矿消失、星极花出现还有2分钟。" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="GenericJson">
+                <Condition Enabled="false" Grouping="Or" />
+              </Action>
+              <Action OrderNumber="2" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 刚哥小助手提醒您，距离皇金矿消失、星极花出现还有2分钟。" LogLevel="-1" VariableOp="SetString" VariableName="_messageToGame" TextAuraFontSize="9" TextAuraFontName="宋体" Enabled="False" ActionType="Variable" Asynchronous="False">
                 <Condition Enabled="false" Grouping="Or" />
               </Action>
             </Actions>
@@ -272,25 +864,6 @@
         </Triggers>
       </Folder>
     </Folders>
-    <Triggers>
-      <Trigger Enabled="true" Name="S报点" Id="ab9b1036-0bed-44ae-8428-cfc331c8616c" RegularExpression="SSSSS|sssss|sss出现|SSS出现">
-        <Actions>
-          <Action OrderNumber="1" UseTTSTextExpression="跨服S" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="UseTTS">
-            <Condition Enabled="false" Grouping="Or" />
-          </Action>
-        </Actions>
-        <Condition Enabled="false" Grouping="Or" />
-      </Trigger>
-      <Trigger Enabled="true" Name="拉高西高蹲A用" Id="b910a899-7f14-4ec0-9777-45438e7986ab" RegularExpression="Added new combatant (玛贝利|卢芭|米勒卡)">
-        <Actions>
-          <Action OrderNumber="1" JsonEndpointExpression="http://127.0.0.1:9618/command" JsonPayloadExpression="/cwl3 &lt;pos&gt;发现A怪，检查点图！" LogLevel="-1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="GenericJson">
-            <Condition Enabled="false" Grouping="Or" />
-            <Conditions />
-          </Action>
-        </Actions>
-        <Condition Enabled="false" Grouping="Or" />
-        <Conditions />
-      </Trigger>
-    </Triggers>
+    <Triggers />
   </ExportedFolder>
 </TriggernometryExport>
